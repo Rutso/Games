@@ -18,12 +18,12 @@ public class Minesweeper1 {
 		 * 
 		 * 5. While cycle that goes until you enter coordinates of a bomb '*' or you mark all mines with 'M' or you reveal all 
 		 * 	  numbers and ' ' spaces.
-		 * 6. In the cycle you are asked to enter two coordinates (i and j)
-		 * 7. then you are asked if it's a marking move (e.g. putting 'M' on a mine) or cleaning move (e.g. revealing the ' ')
-		 * 	8. If you mark and the field has mine we decrement the mines counter and the field is marked with M. 
+		 * 	  In the cycle you are asked to enter two coordinates (i and j)
+		 * 6. then you are asked if it's a marking move (e.g. putting 'M' on a mine) or cleaning move (e.g. revealing the ' ')
+		 * 	7. If you mark and the field has mine we decrement the mines counter and the field is marked with M. 
 		 * 	   If there is no mine, we just mark the field with M and the mine counter stays untouched
 		 * 	   If you decrement the mine counter to 0, we exit the while cycle and you are victorious
-		 * 	9. If we clean and there is a mine... 'boom' == true, and we exit the while cycle
+		 * 	8. If we clean and there is a mine... 'boom' == true, and we exit the while cycle
 		 * 	   If there is a ' ' the program recursively reveals the ' ' up to the border, or numbers.
 		 * 	   If you reveal all ' '-s the ' ' counter becomes 0 and you exit the while cycle and you are victorious.
 		 */
@@ -32,7 +32,7 @@ public class Minesweeper1 {
 		char[][] theField = createField();
 		
 		//2. Put mines on theField:
-		int numberOfMinse = putMinesOnTheField(theField);
+		int numberOfMines = putMinesOnTheField(theField);
 		
 		//3.Place numbers:
 		placeNumbers(theField);
@@ -41,6 +41,49 @@ public class Minesweeper1 {
 		//4. Create the playing field:
 		char[][] thePlayingField = createPlayingField(theField);
 		displayTheField(thePlayingField);
+		
+		//5. Make your move:
+			boolean boom = false;
+			int nonBombSpaces = theField.length*theField[1].length - numberOfMines;
+			int rowIndex = 0;
+			int columnIndex = 0;
+			int unRevealedSpaces = nonBombSpaces;
+		while (boom != true && unRevealedSpaces != 0) {
+			
+			
+			//Entering indexes for the player's move:
+				do {
+					System.out.print("Enter row's number, counting from 0: ");
+					rowIndex = sc.nextInt();
+					System.out.print("Enter column's number, counting from 0: ");
+					columnIndex = sc.nextInt();
+					
+				} while (thePlayingField[rowIndex][columnIndex] != '#');
+		
+			//Resolving the player's move:
+			
+				if (theField[rowIndex][columnIndex] == '*') {
+					boom = true;
+					break;
+				} else {
+					revealField(theField, thePlayingField, rowIndex, columnIndex);
+				}
+				
+				unRevealedSpaces = nonBombSpaces - countRevealedSpaces(thePlayingField);
+			
+				displayTheField(thePlayingField);
+			
+		//End of while bracket:
+		}
+		
+		if (boom == true) {
+			System.out.print("Boooom!!!");
+		} 
+		if (unRevealedSpaces == 0) {
+			System.out.print("You WIN!");
+		}
+		
+		
 		
 	//End of main bracket:	
 	}
@@ -175,6 +218,51 @@ public class Minesweeper1 {
 		return playField;
 	}
 	
+	
+	
+	//5. Recursive method that reveals the empty spaces and the numbers:
+	static void revealField(char[][] theField, char[][] thePlayingField, int rowIndex, int columnIndex) {
+		
+		if (rowIndex < 0 || rowIndex > theField.length-1 || columnIndex < 0 || columnIndex > theField[1].length-1) {
+			return;
+		}
+		
+		if (thePlayingField[rowIndex][columnIndex] == ' ') {
+			return;
+		}
+		
+		if (theField[rowIndex][columnIndex] == '1' || theField[rowIndex][columnIndex] == '2' || theField[rowIndex][columnIndex] == '3' || theField[rowIndex][columnIndex] == '4' || theField[rowIndex][columnIndex] == '5' || theField[rowIndex][columnIndex] == '6' || theField[rowIndex][columnIndex] == '7' || theField[rowIndex][columnIndex] == '8') {
+			thePlayingField[rowIndex][columnIndex] = theField[rowIndex][columnIndex];
+			return;
+		} else {
+			if (theField[rowIndex][columnIndex] == ' '){
+				thePlayingField[rowIndex][columnIndex] = ' ';
+			revealField(theField, thePlayingField, rowIndex-1, columnIndex-1);
+			revealField(theField, thePlayingField, rowIndex-1, columnIndex);
+			revealField(theField, thePlayingField, rowIndex-1, columnIndex+1);
+			revealField(theField, thePlayingField, rowIndex, columnIndex-1);
+			revealField(theField, thePlayingField, rowIndex, columnIndex+1);
+			revealField(theField, thePlayingField, rowIndex+1, columnIndex-1);
+			revealField(theField, thePlayingField, rowIndex+1, columnIndex);
+			revealField(theField, thePlayingField, rowIndex+1, columnIndex+1);
+			}
+		}
+					
+	}
+	
+	//6. Method that counts the revealed spaces:
+	static int countRevealedSpaces(char[][] thePlayingField) {
+		
+		int revealedSpaces = 0;
+		for (int i = 0; i < thePlayingField.length; i++) {
+			for (int j = 0; j < thePlayingField[1].length; j++) {
+				if (thePlayingField[i][j] != '#') {
+					revealedSpaces++;
+				}
+			}
+		}
+		return revealedSpaces;
+	}
 	
 	
 	
