@@ -58,8 +58,8 @@ public class Minesweeper1 {
 					System.out.print("Enter column's number, counting from 0: ");
 					columnIndex = sc.nextInt();
 					
-				} while (thePlayingField[rowIndex][columnIndex] != '#');
-		
+				} while (rowIndex > theField.length-1 || columnIndex > theField[1].length-1 || rowIndex < 0 || columnIndex < 0 || thePlayingField[rowIndex][columnIndex] != '#');
+		 
 			//Resolving the player's move:
 			
 				if (theField[rowIndex][columnIndex] == '*') {
