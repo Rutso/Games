@@ -29,7 +29,8 @@ public class CowsAndBulls1 {
 		
 		//Determining the outcome:
 		if (turns == 0 && bulls < 4) {
-			System.out.print("TRY AGAIN :)");
+			System.out.println("TRY AGAIN :)");
+			System.out.print("The right number is " + theNumber);
 		}
 		if (bulls == 4) {
 			System.out.print("Congratulations! You made a right guess. The number is " + theNumber + ".");
