@@ -70,31 +70,9 @@ public class Pawn extends Figure {
 	}
 	
 	//methods:
-	protected boolean isItALegalPawnMove(Field[][] gameBoard, int letterStart, int letterEnd, int numberStart, int numberEnd) {
+	protected static boolean isItALegalPawnMove(Field[][] gameBoard, int letterStart, int letterEnd, int numberStart, int numberEnd) {
 		
 		if (((Pawn)gameBoard[numberStart][letterStart]).getColor().equalsIgnoreCase("black")) {
-			if (letterStart == letterEnd && numberStart-1 == numberEnd && !(gameBoard[numberEnd][letterEnd] instanceof Figure)) {
-				return true;
-			}
-			if (((Pawn)gameBoard[numberStart][letterStart]).isFirstMove && letterStart == letterEnd && numberStart-2 == numberEnd && !(gameBoard[numberStart-1][letterEnd] instanceof Figure) && !(gameBoard[numberEnd][letterEnd] instanceof Figure)) {
-				return true;
-			}
-			
-			if (letterStart+1 == letterEnd && numberStart-1 == numberEnd && (gameBoard[numberEnd][letterEnd] instanceof Figure)) {
-				if (((Figure)gameBoard[numberEnd][letterEnd]).getColor().equalsIgnoreCase("white") ) {
-					return true;
-				}
-				
-			}
-			if (letterStart-1 == letterEnd && numberStart-1 == numberEnd && (gameBoard[numberEnd][letterEnd] instanceof Figure)) {
-				if (((Figure)gameBoard[numberEnd][letterEnd]).getColor().equalsIgnoreCase("white") ) {
-					return true;
-				}
-				
-			}
-			
-			
-		} else {
 			if (letterStart == letterEnd && numberStart+1 == numberEnd && !(gameBoard[numberEnd][letterEnd] instanceof Figure)) {
 				return true;
 			}
@@ -103,24 +81,52 @@ public class Pawn extends Figure {
 			}
 			
 			if (letterStart+1 == letterEnd && numberStart+1 == numberEnd && (gameBoard[numberEnd][letterEnd] instanceof Figure)) {
-				if (((Figure)gameBoard[numberEnd][letterEnd]).getColor().equalsIgnoreCase("black") ) {
+				if (((Figure)gameBoard[numberEnd][letterEnd]).getColor().equalsIgnoreCase("white") ) {
 					return true;
 				}
 				
 			}
 			if (letterStart-1 == letterEnd && numberStart+1 == numberEnd && (gameBoard[numberEnd][letterEnd] instanceof Figure)) {
-				if (((Figure)gameBoard[numberEnd][letterEnd]).getColor().equalsIgnoreCase("black") ) {
+				if (((Figure)gameBoard[numberEnd][letterEnd]).getColor().equalsIgnoreCase("white") ) {
 					return true;
 				}
 				
 			}
+			
+			
+		} 
+		
+			if (((Pawn)gameBoard[numberStart][letterStart]).getColor().equalsIgnoreCase("white")) {
+				if (letterStart == letterEnd && numberStart-1 == numberEnd && !(gameBoard[numberEnd][letterEnd] instanceof Figure)) {
+					return true;
+				}
+				if (((Pawn)gameBoard[numberStart][letterStart]).isFirstMove && letterStart == letterEnd && numberStart-2 == numberEnd && !(gameBoard[numberStart-1][letterEnd] instanceof Figure) && !(gameBoard[numberEnd][letterEnd] instanceof Figure)) {
+					return true;
+				}
+				
+				if (letterStart+1 == letterEnd && numberStart-1 == numberEnd && (gameBoard[numberEnd][letterEnd] instanceof Figure)) {
+					if (((Figure)gameBoard[numberEnd][letterEnd]).getColor().equalsIgnoreCase("black") ) {
+						return true;
+					}
+					
+				}
+				if (letterStart-1 == letterEnd && numberStart-1 == numberEnd && (gameBoard[numberEnd][letterEnd] instanceof Figure)) {
+					if (((Figure)gameBoard[numberEnd][letterEnd]).getColor().equalsIgnoreCase("black") ) {
+						return true;
+					}
+					
+				}
+			
 						
 			
 		}
 		
 		
-		
 		return false;
+		
+		
+		
+		
 	}
 	
 	
