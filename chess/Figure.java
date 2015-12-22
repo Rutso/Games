@@ -1,16 +1,13 @@
 package chess;
 
-public class Figure extends Field {
+public abstract class Figure extends Field {
 
 	//fields:
 		protected boolean isOnBlack;
 		protected boolean isFirstMove = true;
 		protected char[][] imageOnBlack;
 		protected char[][] imageOnWhite;
-	//constructor:
-		//it calls the default constructor of the superclas Field
-		
-		
+	
 		
 	//setter:
 	protected void setIsOnBlack(boolean isOnBlack){
@@ -27,12 +24,18 @@ public class Figure extends Field {
 	}
 	
 	//methods:
-	protected void firstMooveMade() {
+	protected void firstMoveMade() {
 		this.isFirstMove = false;
 	}
 	
 	
-	protected void removeFigure(Field[][] gameBoard, int letterEnd, int numberEnd, Field[] removedFigures) {
+	protected abstract boolean isItALegalMove(Field[][] gameBoard, int letterStart, int letterEnd, int numberStart, int numberEnd);
+	
+		
+	protected abstract boolean doesItThreatensTheKing(Field[][] gameBoard, int letterStart, int letterEnd);
+	
+	
+	protected void removeFigure(Field[][] gameBoard, int letterEnd, int numberEnd, Player oponent) {
 		String fromColor = new String();
 		if(((Figure) gameBoard[numberEnd][letterEnd]).isOnBlack) {
 			fromColor = "black";
@@ -40,9 +43,9 @@ public class Figure extends Field {
 			fromColor = "white";
 		}
 		
-		for (int i = 0; i < removedFigures.length; i++) {
-			if (removedFigures[i] == null) {
-				removedFigures[i] = gameBoard[numberEnd][letterEnd];
+		for (int i = 0; i < oponent.getRemovedFigures().length; i++) {
+			if (oponent.getRemovedFigures()[i] == null) {
+				oponent.getRemovedFigures()[i] = ((Figure) gameBoard[numberEnd][letterEnd]);
 				return;
 			}
 		}
@@ -54,6 +57,10 @@ public class Figure extends Field {
 	
 	protected void moveFigure(Field[][] gameBoard, int letterStart, int numberStart, int letterEnd, int numberEnd) {
 		String fromColor = new String();
+		if(gameBoard[numberStart][letterStart] instanceof Pawn && ((Pawn) gameBoard[numberStart][letterStart]).isFirstMove) {
+			((Pawn) gameBoard[numberStart][letterStart]).firstMoveMade();
+		} 
+		
 		if(((Figure) gameBoard[numberStart][letterStart]).isOnBlack) {
 			fromColor = "black";
 		} else {
@@ -62,10 +69,10 @@ public class Figure extends Field {
 		
 		String toColor = new String();
 		if (gameBoard[numberEnd][letterEnd].getColor().equalsIgnoreCase("black")) {
-			((Figure) gameBoard[numberStart][letterStart]).setImage(imageOnBlack);
+			((Figure) gameBoard[numberStart][letterStart]).setImage(this.imageOnBlack);
 			toColor = "black";
 		} else {
-			((Figure) gameBoard[numberStart][letterStart]).setImage(imageOnWhite);
+			((Figure) gameBoard[numberStart][letterStart]).setImage(this.imageOnWhite);
 			toColor = "white";
 		}
 		
@@ -75,9 +82,9 @@ public class Figure extends Field {
 		} else {
 			((Figure) gameBoard[numberEnd][letterEnd]).setIsOnBlack(false);
 		}
+		
 		gameBoard[numberStart][letterStart] = new Field(fromColor);
-		
-		
+				
 		
 	}
 	

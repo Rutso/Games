@@ -4,8 +4,7 @@ public class Board {
 
 	//fields:
 	Field[][] gameBoard = new Field[10][10];
-	Field[] removedFiguresWhite = new Field[16];
-	Field[] removedFiguresBlack = new Field[16];
+	
 	
 	
 	
@@ -97,9 +96,16 @@ public class Board {
 				((Pawn) gameBoard[2][j]).setIsOnBlack(false);
 				gameBoard[7][j] = new Pawn("white");
 				gameBoard[7][j].setImage(((Pawn) gameBoard[7][j]).getImageOnBlack());
-				((Pawn) gameBoard[2][j]).setIsOnBlack(true);
+				((Pawn) gameBoard[7][j]).setIsOnBlack(true);
 			}
 		}
+		
+		
+		
+		
+		
+		
+		
 		//knights:
 				gameBoard[1][2] = new Knight("black");
 				((Knight) gameBoard[1][2]).setImage(((Knight) gameBoard[1][2]).getImageOnBlack());

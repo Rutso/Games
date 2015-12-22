@@ -3,8 +3,6 @@ package chess;
 public class Queen extends Figure {
 
 	//fields:
-		protected final char[][] imageOnBlack;
-		protected final char[][] imageOnWhite;
 		
 		
 		

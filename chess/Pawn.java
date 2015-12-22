@@ -70,7 +70,8 @@ public class Pawn extends Figure {
 	}
 	
 	//methods:
-	protected static boolean isItALegalPawnMove(Field[][] gameBoard, int letterStart, int letterEnd, int numberStart, int numberEnd) {
+	@Override
+	protected boolean isItALegalMove(Field[][] gameBoard, int letterStart, int letterEnd, int numberStart, int numberEnd) {
 		
 		if (((Pawn)gameBoard[numberStart][letterStart]).getColor().equalsIgnoreCase("black")) {
 			if (letterStart == letterEnd && numberStart+1 == numberEnd && !(gameBoard[numberEnd][letterEnd] instanceof Figure)) {
@@ -96,7 +97,7 @@ public class Pawn extends Figure {
 			
 		} 
 		
-			if (((Pawn)gameBoard[numberStart][letterStart]).getColor().equalsIgnoreCase("white")) {
+		if (((Pawn)gameBoard[numberStart][letterStart]).getColor().equalsIgnoreCase("white")) {
 				if (letterStart == letterEnd && numberStart-1 == numberEnd && !(gameBoard[numberEnd][letterEnd] instanceof Figure)) {
 					return true;
 				}

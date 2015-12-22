@@ -7,8 +7,6 @@ public class King extends Figure {
 	
 	
 	//fields:
-			protected final char[][] imageOnBlack;
-			protected final char[][] imageOnWhite;
 			
 			
 			

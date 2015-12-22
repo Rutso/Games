@@ -3,8 +3,7 @@ package chess;
 public class Bishop extends Figure {
 
 	//fields:
-		protected final char[][] imageOnBlack;
-		protected final char[][] imageOnWhite;
+		
 		
 		
 		
@@ -62,13 +61,112 @@ public class Bishop extends Figure {
 		}
 	
 		//getters:
-				protected char[][] getImageOnBlack() {
-					return this.imageOnBlack;
+		protected char[][] getImageOnBlack() {
+			return this.imageOnBlack;
+		}
+		protected char[][] getImageOnWhite() {
+			return this.imageOnWhite;
+		}
+
+		@Override
+		protected boolean isItALegalMove(Field[][] gameBoard, int letterStart, int letterEnd, int numberStart, int numberEnd) {
+			
+			if (gameBoard[numberStart][letterStart].getColor().equalsIgnoreCase("black")) {
+				if (this.isLegalBishopMovingPattern(letterStart, letterEnd, numberStart, numberEnd)) {
+					if (this.isThePathForBishopFree(gameBoard, letterStart, letterEnd, numberStart, numberEnd)) {
+						if( (gameBoard[numberEnd][letterEnd] instanceof Figure && ((Figure) gameBoard[numberEnd][letterEnd]).getColor().equalsIgnoreCase("white")) || !(gameBoard[numberEnd][letterEnd] instanceof Figure) ) {
+							return true;
+						}
+					}
 				}
-				protected char[][] getImageOnWhite() {
-					return this.imageOnWhite;
+
+			return false;
+						
+			}
+			
+			if (gameBoard[numberStart][letterStart].getColor().equalsIgnoreCase("white")) {
+				if (this.isLegalBishopMovingPattern(letterStart, letterEnd, numberStart, numberEnd)) {
+					if (this.isThePathForBishopFree(gameBoard, letterStart, letterEnd, numberStart, numberEnd)) {
+						if( (gameBoard[numberEnd][letterEnd] instanceof Figure && ((Figure) gameBoard[numberEnd][letterEnd]).getColor().equalsIgnoreCase("black")) || !(gameBoard[numberEnd][letterEnd] instanceof Figure) ) {
+							return true;
+						}
+					}
 				}
+
+			return false;
+						
+			}
+			
+			
+			return false;
+			
+		}
+
+		
+		
+		
+		private boolean isLegalBishopMovingPattern(int letterStart, int letterEnd, int numberStart, int numberEnd) {
+			if ((letterStart + numberStart == letterEnd + numberEnd) || (letterStart-letterEnd == numberStart-numberEnd)) {
+				return true;
+			}
+			
+			return false;
+		}	
 	
+		private boolean isThePathForBishopFree(Field[][] gameBoard, int letterStart, int letterEnd, int numberStart, int numberEnd) {
+			if (letterStart < letterEnd && numberStart < numberEnd) {
+				int i = 1;
+				while (letterStart+i < letterEnd && numberStart+i < numberEnd) {
+					if (gameBoard[numberStart+i][letterStart+i] instanceof Figure) {
+						return false;
+					}
+					i++;
+				}
+				return true;
+			}
+			
+			if (letterStart > letterEnd && numberStart > numberEnd) {
+				int i = 1;
+				while (letterStart-i < letterEnd && numberStart-i < numberEnd) {
+					if (gameBoard[numberStart-i][letterStart-i] instanceof Figure) {
+						return false;
+					}
+					i++;
+				}
+				return true;
+			}
+			
+			if (letterStart < letterEnd && numberStart > numberEnd) {
+				int i = 1;
+				while (letterStart+i < letterEnd && numberStart-i > numberEnd) {
+					if (gameBoard[numberStart-i][letterStart+i] instanceof Figure) {
+						return false;
+					}
+					i++;
+				}
+				return true;
+			}
+			
+			if (letterStart > letterEnd && numberStart < numberEnd) {
+				int i = 1;
+				while (letterStart-i > letterEnd && numberStart+i < numberEnd) {
+					if (gameBoard[numberStart+i][letterStart-i] instanceof Figure) {
+						return false;
+					}
+					i++;
+				}
+				return true;
+			}
+			
+			return false;
+		}
 	
-	
+		
+		
+		
+		
+		
+		
+		
+		
 }
