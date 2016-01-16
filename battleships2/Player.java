@@ -36,6 +36,10 @@ public abstract class Player {
 		private void mark(int i, int j, char result) {
 			this.area[i][j] = result;
 		}
+		
+		
+		
+		
 	}
 	
 		
@@ -46,7 +50,10 @@ public abstract class Player {
 	private Ship[] fleet = new Ship[5];
 	
 	//Constructor:
-	public Player(String name){
+	protected Player(String name) {
+		this.name = name;
+			
+		
 		
 	}
 	
@@ -67,17 +74,56 @@ public abstract class Player {
 		return fleet;
 	}
 	
+	protected void setName(String name) {
+		this.name = name;
+	}
 	
 	//Methods:
+	
 	public void displayMaps() {
 		this.ownAquatory.displayAquatory();
 		this.enemyAquatory.displayAquatory();
 	}
 	
 	
-	public abstract void fire(Player opponent);
+	public abstract void placeShipsInAquatory();
 	
+	public abstract char fire(Player opponent);
 	
+	protected char answerToTheOponentsShot(int vertical, int horizontal) {
+		
+		for (int i = 0; i < this.fleet.length; i++) {
+			
+			char answer = this.fleet[i].checkIfHit(vertical, horizontal);
+			
+			if (answer == 'h' || answer == 's') {
+				this.ownAquatory.mark(vertical, horizontal, answer);
+				return answer;
+			}
+		}
+		char answer = 'm';
+		this.ownAquatory.mark(vertical, horizontal, answer);
+		System.out.println("Missfire!");
+		return answer;
+	}
 	
-	
+	public void putTheAnswerOnTheEnemyMap(int vertical, int horizontal, char answer) {
+		this.enemyAquatory.mark(vertical, horizontal, answer);
+	}
+
+	public boolean isFleetAlive() {
+		int counter = 0;
+		for (int i = 0; i < this.fleet.length; i++) {
+			if (this.fleet[i].isAlive()) {
+				counter++;
+			}
+		}
+		if (counter > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+
 }
