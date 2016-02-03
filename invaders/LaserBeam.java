@@ -2,8 +2,8 @@
 
 package invaders;
 
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+//import javafx.scene.media.Media;
+//import javafx.scene.media.MediaPlayer;
 
 public class LaserBeam implements ISpaceObject{
 
@@ -35,9 +35,8 @@ public class LaserBeam implements ISpaceObject{
 			    
 			        
 					try {
-						Thread.sleep(100);
+						Thread.sleep(50);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}

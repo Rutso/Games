@@ -1,11 +1,11 @@
 package invaders;
 
-import java.util.Scanner;
+//import java.util.Scanner;
 
 public class HumanShip extends Spaceship {
 
 	private static final int SPOWN_COORDINATE_VERTICAL = 28;
-	private static final int SPOWN_COORDINATE_HORIZONTAL = 48;
+	private static final int SPOWN_COORDINATE_HORIZONTAL = 49;
 	private volatile int move = 0;
 	
 	public HumanShip() {
@@ -20,7 +20,7 @@ public class HumanShip extends Spaceship {
 	@Override
 	public void moveInSpace() {
 		HumanShip hs = this;
-		Scanner sc = new Scanner(System.in);
+		//Scanner sc = new Scanner(System.in);
 		
 		Thread t = new Thread (new Runnable() {
 			
